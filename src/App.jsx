@@ -1,21 +1,21 @@
-import { createContext, useEffect, useState } from 'react';
-import { Routes, Route, useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { ToastContainer } from "react-toastify";
-import { setUser, clearUser } from './store/userSlice';
+import React, { createContext, useEffect, useState } from "react";
+import { Route, Routes, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { ToastContainer, toast } from "react-toastify";
 import Header from "@/components/organisms/Header";
-import Dashboard from "@/components/pages/Dashboard";
-import Clients from "@/components/pages/Clients";
-import ClientDetail from "@/components/pages/ClientDetail";
 import Documents from "@/components/pages/Documents";
-import Messages from "@/components/pages/Messages";
+import Login from "@/components/pages/Login";
+import Signup from "@/components/pages/Signup";
+import ClientDetail from "@/components/pages/ClientDetail";
+import Clients from "@/components/pages/Clients";
+import Callback from "@/components/pages/Callback";
+import PromptPassword from "@/components/pages/PromptPassword";
+import Dashboard from "@/components/pages/Dashboard";
+import ErrorPage from "@/components/pages/ErrorPage";
+import ResetPassword from "@/components/pages/ResetPassword";
 import Settings from "@/components/pages/Settings";
-import Login from '@/components/pages/Login';
-import Signup from '@/components/pages/Signup';
-import Callback from '@/components/pages/Callback';
-import ErrorPage from '@/components/pages/ErrorPage';
-import ResetPassword from '@/components/pages/ResetPassword';
-import PromptPassword from '@/components/pages/PromptPassword';
+import Messages from "@/components/pages/Messages";
+import { clearUser, setUser } from "@/store/userSlice";
 
 // Create auth context
 export const AuthContext = createContext(null);
@@ -101,7 +101,7 @@ function App() {
     });
   }, [navigate, dispatch]);
   
-  // Authentication methods to share via context
+// Authentication methods to share via context
   const authMethods = {
     isInitialized,
     logout: async () => {
@@ -110,8 +110,20 @@ function App() {
         await ApperUI.logout();
         dispatch(clearUser());
         navigate('/login');
+        toast.success('Logged out successfully');
       } catch (error) {
         console.error("Logout failed:", error);
+        
+        // Always clear user state locally, even if server logout fails
+        dispatch(clearUser());
+        navigate('/login');
+        
+        // Provide user-friendly error message
+        if (error.name === 'AxiosError' && error.message === 'Network Error') {
+          toast.warning('Logged out locally - network connection issue prevented server logout');
+        } else {
+          toast.error('Logout completed with warnings - please check your connection');
+        }
       }
     }
   };
