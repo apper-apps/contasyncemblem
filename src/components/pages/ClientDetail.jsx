@@ -125,19 +125,19 @@ const updatedDocument = {
         <span className="text-gray-900 font-medium">{company.Name}</span>
       </div>
       {/* Company Header */}
-      <Card className="p-6">
+<Card className="p-6">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-6">
             <div className="w-16 h-16 bg-gradient-to-r from-primary to-accent rounded-2xl flex items-center justify-center">
               <ApperIcon name="Building" size={32} className="text-white" />
             </div>
             <div>
-<div className="flex items-center space-x-3 mb-2">
+              <div className="flex items-center space-x-3 mb-2">
                 <h1 className="text-2xl font-bold text-gray-900">{company.Name}</h1>
                 <CompanyTypeBadge type={company.type} />
               </div>
               <p className="text-gray-600 mb-1">CUI: {company.cui}</p>
-<div className="flex items-center space-x-4 text-sm text-gray-600">
+              <div className="flex items-center space-x-4 text-sm text-gray-600">
                 <div className="flex items-center space-x-1">
                   <ApperIcon name="Mail" size={14} />
                   <span>{company.contact_email}</span>
@@ -147,7 +147,6 @@ const updatedDocument = {
                   <span>{company.phone}</span>
                 </div>
               </div>
-              </div>
             </div>
           </div>
           <div className="flex items-center space-x-4">
@@ -156,9 +155,8 @@ const updatedDocument = {
               <p className="text-2xl font-bold text-gray-900">{documents.length}</p>
             </div>
           </div>
-        </div>
+</div>
       </Card>
-
       {/* Tabs */}
       <Card className="p-0">
         <div className="border-b border-gray-200">
