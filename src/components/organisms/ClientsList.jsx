@@ -10,7 +10,9 @@ import StatusBadge from "@/components/molecules/StatusBadge";
 import Loading from "@/components/ui/Loading";
 import Error from "@/components/ui/Error";
 import Empty from "@/components/ui/Empty";
+import FormField from "@/components/molecules/FormField";
 import { companiesService } from "@/services/api/companiesService";
+import { toast } from 'react-toastify';
 
 const ClientsList = () => {
   const [companies, setCompanies] = useState([]);
@@ -19,6 +21,21 @@ const ClientsList = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState("name");
   const [sortOrder, setSortOrder] = useState("asc");
+  
+  // Add client form state
+  const [showAddForm, setShowAddForm] = useState(false);
+  const [formData, setFormData] = useState({
+    Name: "",
+    cui: "",
+    type: "",
+    contact_email: "",
+    phone: "",
+    accountant_id: "",
+    Tags: "",
+    Owner: ""
+  });
+  const [formLoading, setFormLoading] = useState(false);
+  const [formErrors, setFormErrors] = useState({});
 
   useEffect(() => {
     loadCompanies();
@@ -68,11 +85,121 @@ const filteredAndSortedCompanies = companies
     // Mock status calculation - in real app, this would come from documents service
     const statuses = ["completed", "pending", "received"];
     return statuses[companyId % statuses.length];
+};
+
+  const validateForm = () => {
+    const errors = {};
+    
+    if (!formData.Name.trim()) {
+      errors.Name = "Numele companiei este obligatoriu";
+    } else if (formData.Name.trim().length < 2) {
+      errors.Name = "Numele companiei trebuie să aibă cel puțin 2 caractere";
+    }
+    
+    if (!formData.cui.trim()) {
+      errors.cui = "CUI-ul este obligatoriu";
+    } else if (formData.cui.trim().length < 2) {
+      errors.cui = "CUI-ul trebuie să aibă cel puțin 2 caractere";
+    }
+    
+    if (!formData.type) {
+      errors.type = "Tipul companiei este obligatoriu";
+    }
+    
+    if (!formData.contact_email.trim()) {
+      errors.contact_email = "Email-ul de contact este obligatoriu";
+    } else if (!/\S+@\S+\.\S+/.test(formData.contact_email)) {
+      errors.contact_email = "Email-ul nu este valid";
+    }
+    
+    if (formData.phone && !/^[+]?[\d\s\-\(\)]+$/.test(formData.phone)) {
+      errors.phone = "Numărul de telefon nu este valid";
+    }
+    
+    return errors;
+  };
+
+  const handleFormChange = (field, value) => {
+    setFormData(prev => ({
+      ...prev,
+      [field]: value
+    }));
+    
+    // Clear error when user starts typing
+    if (formErrors[field]) {
+      setFormErrors(prev => ({
+        ...prev,
+        [field]: ""
+      }));
+    }
+  };
+
+  const handleAddClient = async (e) => {
+    e.preventDefault();
+    
+    const errors = validateForm();
+    if (Object.keys(errors).length > 0) {
+      setFormErrors(errors);
+      return;
+    }
+    
+    setFormLoading(true);
+    setFormErrors({});
+    
+    try {
+      const newClient = await companiesService.create(formData);
+      
+      if (newClient) {
+        // Add to local state
+        setCompanies(prev => [...prev, newClient]);
+        
+        // Reset form
+        setFormData({
+          Name: "",
+          cui: "",
+          type: "",
+          contact_email: "",
+          phone: "",
+          accountant_id: "",
+          Tags: "",
+          Owner: ""
+        });
+        
+        // Hide form
+        setShowAddForm(false);
+        
+        // Show success message
+        toast.success("Client adăugat cu succes!");
+      }
+    } catch (error) {
+      console.error("Error adding client:", error);
+      toast.error("Eroare la adăugarea clientului");
+    } finally {
+      setFormLoading(false);
+    }
+  };
+
+  const toggleAddForm = () => {
+    setShowAddForm(!showAddForm);
+    if (!showAddForm) {
+      // Reset form when opening
+      setFormData({
+        Name: "",
+        cui: "",
+        type: "",
+        contact_email: "",
+        phone: "",
+        accountant_id: "",
+        Tags: "",
+        Owner: ""
+      });
+      setFormErrors({});
+    }
   };
 
   if (loading) return <Loading />;
   if (error) return <Error message={error} onRetry={loadCompanies} />;
-  if (companies.length === 0) return <Empty message="Nu există clienți înregistrați" />;
+  if (companies.length === 0 && !showAddForm) return <Empty message="Nu există clienți înregistrați" />;
 
   return (
     <div className="space-y-6">
@@ -82,9 +209,9 @@ const filteredAndSortedCompanies = companies
           <h1 className="text-2xl font-bold text-gray-900">Clienți</h1>
           <p className="text-gray-600">Gestionează clienții și documentele lor</p>
         </div>
-        <Button>
+<Button onClick={toggleAddForm}>
           <ApperIcon name="Plus" size={16} className="mr-2" />
-          Adaugă client
+          {showAddForm ? "Anulează" : "Adaugă client"}
         </Button>
       </div>
 
@@ -187,11 +314,152 @@ const filteredAndSortedCompanies = companies
         ))}
       </div>
 
-      {filteredAndSortedCompanies.length === 0 && searchQuery && (
+{filteredAndSortedCompanies.length === 0 && searchQuery && (
         <Empty 
           message="Nu s-au găsit clienți"
           description={`Nu există clienți care să corespundă cu "${searchQuery}"`}
         />
+      )}
+
+      {/* Add Client Form */}
+      {showAddForm && (
+        <Card className="mt-8">
+          <div className="p-6">
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-xl font-semibold text-gray-900">Adaugă client nou</h2>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={toggleAddForm}
+                className="text-gray-500 hover:text-gray-700"
+              >
+                <ApperIcon name="X" size={16} />
+              </Button>
+            </div>
+
+            <form onSubmit={handleAddClient} className="space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* Name Field */}
+                <FormField
+                  label="Nume companie"
+                  type="text"
+                  required
+                  value={formData.Name}
+                  onChange={(e) => handleFormChange("Name", e.target.value)}
+                  error={formErrors.Name}
+                  placeholder="Introduceti numele companiei"
+                />
+
+                {/* CUI Field */}
+                <FormField
+                  label="CUI"
+                  type="text"
+                  required
+                  value={formData.cui}
+                  onChange={(e) => handleFormChange("cui", e.target.value)}
+                  error={formErrors.cui}
+                  placeholder="Introduceti CUI-ul"
+                />
+
+                {/* Type Field */}
+                <FormField
+                  label="Tip companie"
+                  type="select"
+                  required
+                  value={formData.type}
+                  onChange={(e) => handleFormChange("type", e.target.value)}
+                  error={formErrors.type}
+                  options={[
+                    { value: "", label: "Selecteaza tipul" },
+                    { value: "SRL", label: "SRL" },
+                    { value: "PFA", label: "PFA" },
+                    { value: "II", label: "II" },
+                    { value: "IF", label: "IF" }
+                  ]}
+                />
+
+                {/* Contact Email Field */}
+                <FormField
+                  label="Email contact"
+                  type="email"
+                  required
+                  value={formData.contact_email}
+                  onChange={(e) => handleFormChange("contact_email", e.target.value)}
+                  error={formErrors.contact_email}
+                  placeholder="contact@companie.ro"
+                />
+
+                {/* Phone Field */}
+                <FormField
+                  label="Telefon"
+                  type="tel"
+                  value={formData.phone}
+                  onChange={(e) => handleFormChange("phone", e.target.value)}
+                  error={formErrors.phone}
+                  placeholder="0721234567"
+                />
+
+                {/* Accountant ID Field */}
+                <FormField
+                  label="ID Contabil"
+                  type="text"
+                  value={formData.accountant_id}
+                  onChange={(e) => handleFormChange("accountant_id", e.target.value)}
+                  error={formErrors.accountant_id}
+                  placeholder="ID-ul contabilului"
+                />
+
+                {/* Tags Field */}
+                <FormField
+                  label="Etichete"
+                  type="text"
+                  value={formData.Tags}
+                  onChange={(e) => handleFormChange("Tags", e.target.value)}
+                  error={formErrors.Tags}
+                  placeholder="tag1,tag2,tag3"
+                />
+
+                {/* Owner Field */}
+                <FormField
+                  label="Proprietar"
+                  type="text"
+                  value={formData.Owner}
+                  onChange={(e) => handleFormChange("Owner", e.target.value)}
+                  error={formErrors.Owner}
+                  placeholder="Numele proprietarului"
+                />
+              </div>
+
+              <div className="flex items-center justify-end space-x-4 pt-4 border-t border-gray-200">
+                <Button
+                  type="button"
+                  variant="secondary"
+                  onClick={toggleAddForm}
+                  disabled={formLoading}
+                >
+                  Anulează
+                </Button>
+                <Button
+                  type="submit"
+                  disabled={formLoading}
+                  className="min-w-[120px]"
+                >
+                  {formLoading ? (
+                    <>
+                      <ApperIcon name="Loader2" size={16} className="mr-2 animate-spin" />
+                      Salvează...
+                    </>
+                  ) : (
+                    <>
+                      <ApperIcon name="Save" size={16} className="mr-2" />
+                      Salvează
+                    </>
+                  )}
+                </Button>
+              </div>
+            </form>
+          </div>
+        </Card>
       )}
     </div>
   );
