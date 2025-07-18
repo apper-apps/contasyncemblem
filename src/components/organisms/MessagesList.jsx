@@ -1,18 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import ApperIcon from "@/components/ApperIcon";
-import Card from "@/components/atoms/Card";
-import Button from "@/components/atoms/Button";
-import Badge from "@/components/atoms/Badge";
-import SearchBar from "@/components/molecules/SearchBar";
-import FormField from "@/components/molecules/FormField";
-import Loading from "@/components/ui/Loading";
-import Error from "@/components/ui/Error";
-import Empty from "@/components/ui/Empty";
-import { messagesService } from "@/services/api/messagesService";
-import { companiesService } from "@/services/api/companiesService";
 import { format } from "date-fns";
 import { ro } from "date-fns/locale";
+import ApperIcon from "@/components/ApperIcon";
+import Empty from "@/components/ui/Empty";
+import Error from "@/components/ui/Error";
+import Loading from "@/components/ui/Loading";
+import FormField from "@/components/molecules/FormField";
+import SearchBar from "@/components/molecules/SearchBar";
+import Card from "@/components/atoms/Card";
+import Badge from "@/components/atoms/Badge";
+import Button from "@/components/atoms/Button";
+import { messagesService } from "@/services/api/messagesService";
+import { companiesService } from "@/services/api/companiesService";
 
 const MessagesList = () => {
   const [messages, setMessages] = useState([]);
@@ -61,9 +61,9 @@ const MessagesList = () => {
     }
   };
 
-  const getCompanyName = (companyId) => {
-    const company = companies.find(c => c.Id === parseInt(companyId));
-    return company ? company.name : "Necunoscut";
+const getCompanyName = (companyId) => {
+    const company = companies.find(c => c.Id === parseInt(companyId?.Id || companyId));
+    return company ? company.Name : "Necunoscut";
   };
 
   const getMessageTypeConfig = (type) => {
@@ -75,12 +75,12 @@ const MessagesList = () => {
     return config[type] || config.info;
   };
 
-  const filteredMessages = messages.filter(msg => {
-    const matchesSearch = msg.subject.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                         msg.content.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                         getCompanyName(msg.companyId).toLowerCase().includes(searchQuery.toLowerCase());
+const filteredMessages = messages.filter(msg => {
+    const matchesSearch = msg.subject?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                         msg.content?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                         getCompanyName(msg.company_id).toLowerCase().includes(searchQuery.toLowerCase());
     const matchesType = !filterType || msg.type === filterType;
-    const matchesCompany = !filterCompany || msg.companyId === filterCompany;
+    const matchesCompany = !filterCompany || msg.company_id?.Id === parseInt(filterCompany) || msg.company_id === parseInt(filterCompany);
 
     return matchesSearch && matchesType && matchesCompany;
   });
@@ -94,7 +94,7 @@ const MessagesList = () => {
 
   const companyOptions = [
     { value: "", label: "Toate companiile" },
-    ...companies.map(company => ({ value: company.Id.toString(), label: company.name }))
+...companies.map(company => ({ value: company.Id.toString(), label: company.Name }))
   ];
 
   const handleMessageClick = (message) => {
@@ -188,8 +188,8 @@ const MessagesList = () => {
                         <h3 className={`font-semibold ${!message.read ? 'text-gray-900' : 'text-gray-700'}`}>
                           {message.subject}
                         </h3>
-                        <p className="text-sm text-gray-600 mt-1">
-                          {getCompanyName(message.companyId)}
+<p className="text-sm text-gray-600 mt-1">
+                          {getCompanyName(message.company_id)}
                         </p>
                       </div>
                       <div className="text-right">
@@ -234,9 +234,9 @@ const MessagesList = () => {
                 <div>
                   <h2 className="text-lg font-semibold text-gray-900 mb-2">
                     {selectedMessage.subject}
-                  </h2>
-                  <div className="flex items-center space-x-4 text-sm text-gray-600">
-                    <span>{getCompanyName(selectedMessage.companyId)}</span>
+</h2>
+                  <div className="flex items-center space-x-2 text-sm text-gray-600">
+                    <span>{getCompanyName(selectedMessage.company_id)}</span>
                     <span>•</span>
                     <span>{format(new Date(selectedMessage.timestamp), "dd MMM yyyy, HH:mm", { locale: ro })}</span>
                   </div>

@@ -42,16 +42,16 @@ const DashboardStats = () => {
       setStats({
         totalClients: companies.length,
         totalDocuments: documents.length,
-        pendingDocuments: documents.filter(doc => doc.status === "uploaded" || doc.status === "sent").length,
+pendingDocuments: documents.filter(doc => doc.status === "uploaded" || doc.status === "sent").length,
         unreadMessages: messages.filter(msg => !msg.read).length,
         completedThisMonth: documents.filter(doc => {
-          const docDate = new Date(doc.uploadDate);
+          const docDate = new Date(doc.upload_date);
           return docDate.getMonth() === currentMonth && 
                  docDate.getFullYear() === currentYear &&
                  doc.status === "processed";
         }).length,
-        receivedToday: documents.filter(doc => {
-          const docDate = new Date(doc.uploadDate);
+receivedToday: documents.filter(doc => {
+          const docDate = new Date(doc.upload_date);
           return docDate.toDateString() === today.toDateString();
         }).length
       });

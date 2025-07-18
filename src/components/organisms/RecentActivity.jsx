@@ -38,8 +38,8 @@ const RecentActivity = () => {
       ]);
 
       // Sort by date and get recent items
-      const sortedDocuments = documents
-        .sort((a, b) => new Date(b.uploadDate) - new Date(a.uploadDate))
+const sortedDocuments = documents
+        .sort((a, b) => new Date(b.upload_date) - new Date(a.upload_date))
         .slice(0, 5);
 
       const sortedMessages = messages
@@ -57,13 +57,13 @@ const RecentActivity = () => {
     }
   };
 
-  const getCompanyName = (companyId) => {
-    const company = companies.find(c => c.Id === parseInt(companyId));
-    return company ? company.name : "Necunoscut";
+const getCompanyName = (companyId) => {
+    const company = companies.find(c => c.Id === parseInt(companyId?.Id || companyId));
+    return company ? company.Name : "Necunoscut";
   };
 
   const getCompanyType = (companyId) => {
-    const company = companies.find(c => c.Id === parseInt(companyId));
+    const company = companies.find(c => c.Id === parseInt(companyId?.Id || companyId));
     return company ? company.type : "SRL";
   };
 
@@ -102,15 +102,15 @@ const RecentActivity = () => {
                 
                 <div className="flex-1">
                   <div className="flex items-center space-x-2">
-                    <p className="font-medium text-gray-900 truncate">
-                      {document.fileName}
+<p className="font-medium text-gray-900 truncate">
+                      {document.file_name}
                     </p>
-                    <CompanyTypeBadge type={getCompanyType(document.companyId)} size="sm" />
+                    <CompanyTypeBadge type={getCompanyType(document.company_id)} size="sm" />
                   </div>
                   <div className="flex items-center space-x-2 text-sm text-gray-600">
-                    <span>{getCompanyName(document.companyId)}</span>
+                    <span>{getCompanyName(document.company_id)}</span>
                     <span>•</span>
-                    <span>{format(new Date(document.uploadDate), "dd MMM", { locale: ro })}</span>
+                    <span>{format(new Date(document.upload_date), "dd MMM", { locale: ro })}</span>
                   </div>
                 </div>
                 
@@ -177,8 +177,8 @@ const RecentActivity = () => {
                         <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
                       )}
                     </div>
-                    <div className="flex items-center space-x-2 text-sm text-gray-600">
-                      <span>{getCompanyName(message.companyId)}</span>
+<div className="flex items-center space-x-2 text-sm text-gray-600">
+                      <span>{getCompanyName(message.company_id)}</span>
                       <span>•</span>
                       <span>{format(new Date(message.timestamp), "dd MMM", { locale: ro })}</span>
                     </div>

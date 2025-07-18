@@ -38,20 +38,20 @@ const ClientsList = () => {
     }
   };
 
-  const filteredAndSortedCompanies = companies
+const filteredAndSortedCompanies = companies
     .filter(company => 
-      company.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      company.cui.includes(searchQuery) ||
-      company.contactEmail.toLowerCase().includes(searchQuery.toLowerCase())
+      company.Name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      company.cui?.includes(searchQuery) ||
+      company.contact_email?.toLowerCase().includes(searchQuery.toLowerCase())
     )
     .sort((a, b) => {
-      const aValue = a[sortBy];
-      const bValue = b[sortBy];
+      const aValue = a[sortBy === "name" ? "Name" : sortBy];
+      const bValue = b[sortBy === "name" ? "Name" : sortBy];
       
       if (sortOrder === "asc") {
-        return aValue.localeCompare(bValue);
+        return aValue?.localeCompare(bValue) || 0;
       } else {
-        return bValue.localeCompare(aValue);
+        return bValue?.localeCompare(aValue) || 0;
       }
     });
 
@@ -151,9 +151,9 @@ const ClientsList = () => {
                 <div className="space-y-4">
                   {/* Company Header */}
                   <div className="flex items-start justify-between">
-                    <div className="flex-1">
+<div className="flex-1">
                       <h3 className="font-semibold text-gray-900 group-hover:text-primary transition-colors">
-                        {company.name}
+                        {company.Name}
                       </h3>
                       <p className="text-sm text-gray-600">CUI: {company.cui}</p>
                     </div>
@@ -164,7 +164,7 @@ const ClientsList = () => {
                   <div className="space-y-2">
                     <div className="flex items-center space-x-2 text-sm text-gray-600">
                       <ApperIcon name="Mail" size={14} />
-                      <span className="truncate">{company.contactEmail}</span>
+                      <span className="truncate">{company.contact_email}</span>
                     </div>
                     <div className="flex items-center space-x-2 text-sm text-gray-600">
                       <ApperIcon name="Phone" size={14} />

@@ -1,23 +1,22 @@
-import React, { useState, useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
 import { motion } from "framer-motion";
-import ApperIcon from "@/components/ApperIcon";
-import Card from "@/components/atoms/Card";
-import Button from "@/components/atoms/Button";
-import Badge from "@/components/atoms/Badge";
-import CompanyTypeBadge from "@/components/molecules/CompanyTypeBadge";
-import StatusBadge from "@/components/molecules/StatusBadge";
-import DocumentUpload from "@/components/molecules/DocumentUpload";
-import Loading from "@/components/ui/Loading";
-import Error from "@/components/ui/Error";
-import Empty from "@/components/ui/Empty";
-import { companiesService } from "@/services/api/companiesService";
-import { documentsService } from "@/services/api/documentsService";
-import { messagesService } from "@/services/api/messagesService";
 import { format } from "date-fns";
 import { ro } from "date-fns/locale";
 import { toast } from "react-toastify";
-
+import ApperIcon from "@/components/ApperIcon";
+import Empty from "@/components/ui/Empty";
+import Error from "@/components/ui/Error";
+import Loading from "@/components/ui/Loading";
+import CompanyTypeBadge from "@/components/molecules/CompanyTypeBadge";
+import DocumentUpload from "@/components/molecules/DocumentUpload";
+import StatusBadge from "@/components/molecules/StatusBadge";
+import Card from "@/components/atoms/Card";
+import Badge from "@/components/atoms/Badge";
+import Button from "@/components/atoms/Button";
+import { documentsService } from "@/services/api/documentsService";
+import { messagesService } from "@/services/api/messagesService";
+import { companiesService } from "@/services/api/companiesService";
 const ClientDetail = () => {
   const { id } = useParams();
   const [company, setCompany] = useState(null);
@@ -42,9 +41,9 @@ const ClientDetail = () => {
         messagesService.getAll()
       ]);
 
-      setCompany(companyData);
-      setDocuments(documentsData.filter(doc => doc.companyId === id));
-      setMessages(messagesData.filter(msg => msg.companyId === id));
+setCompany(companyData);
+      setDocuments(documentsData.filter(doc => (doc.company_id?.Id || doc.company_id) === parseInt(id)));
+      setMessages(messagesData.filter(msg => (msg.company_id?.Id || msg.company_id) === parseInt(id)));
     } catch (err) {
       setError("Eroare la încărcarea datelor clientului");
       console.error("Error loading client data:", err);
@@ -57,15 +56,15 @@ const ClientDetail = () => {
     try {
       // Simulate multiple file uploads
       const uploadPromises = uploadData.files.map(async (file) => {
-        const newDocument = {
-          companyId: id,
+const newDocument = {
+          company_id: parseInt(id),
           month: uploadData.month,
           year: uploadData.year,
           type: uploadData.documentType,
-          fileName: file.name,
-          uploadDate: new Date().toISOString(),
-          physicalSentDate: null,
-          physicalReceivedDate: null,
+          file_name: file.name,
+          upload_date: new Date().toISOString(),
+          physical_sent_date: null,
+          physical_received_date: null,
           status: "uploaded"
         };
         
@@ -86,10 +85,10 @@ const ClientDetail = () => {
       const document = documents.find(doc => doc.Id === documentId);
       if (!document) return;
 
-      const updatedDocument = {
+const updatedDocument = {
         ...document,
         status: newStatus,
-        physicalReceivedDate: newStatus === "received" ? new Date().toISOString() : document.physicalReceivedDate
+        physical_received_date: newStatus === "received" ? new Date().toISOString() : document.physical_received_date
       };
 
       await documentsService.update(documentId, updatedDocument);
@@ -134,20 +133,20 @@ const ClientDetail = () => {
               <ApperIcon name="Building" size={32} className="text-white" />
             </div>
             <div>
-              <div className="flex items-center space-x-3 mb-2">
-                <h1 className="text-2xl font-bold text-gray-900">{company.name}</h1>
+<div className="flex items-center space-x-3 mb-2">
+                <h1 className="text-2xl font-bold text-gray-900">{company.Name}</h1>
                 <CompanyTypeBadge type={company.type} />
               </div>
               <p className="text-gray-600 mb-1">CUI: {company.cui}</p>
               <div className="flex items-center space-x-4 text-sm text-gray-600">
                 <div className="flex items-center space-x-1">
-                  <ApperIcon name="Mail" size={14} />
-                  <span>{company.contactEmail}</span>
+<span>{company.contact_email}</span>
                 </div>
                 <div className="flex items-center space-x-1">
                   <ApperIcon name="Phone" size={14} />
                   <span>{company.phone}</span>
                 </div>
+              </div>
               </div>
             </div>
           </div>
@@ -221,14 +220,14 @@ const ClientDetail = () => {
                           <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg flex items-center justify-center">
                             <ApperIcon name="FileText" size={16} className="text-white" />
                           </div>
-                          <div>
-                            <p className="font-medium text-gray-900">{document.fileName}</p>
+<div>
+                            <p className="font-medium text-gray-900">{document.file_name}</p>
                             <div className="flex items-center space-x-2 text-sm text-gray-600">
                               <span>{document.month} {document.year}</span>
                               <span>•</span>
                               <span>{document.type}</span>
                               <span>•</span>
-                              <span>{format(new Date(document.uploadDate), "dd MMM yyyy", { locale: ro })}</span>
+                              <span>{format(new Date(document.upload_date), "dd MMM yyyy", { locale: ro })}</span>
                             </div>
                           </div>
                         </div>
@@ -307,9 +306,9 @@ const ClientDetail = () => {
                   Informații Companie
                 </h3>
                 <div className="space-y-3">
-                  <div>
+<div>
                     <p className="text-sm text-gray-600">Numele companiei</p>
-                    <p className="font-medium text-gray-900">{company.name}</p>
+                    <p className="font-medium text-gray-900">{company.Name}</p>
                   </div>
                   <div>
                     <p className="text-sm text-gray-600">CUI</p>
@@ -328,8 +327,8 @@ const ClientDetail = () => {
                 </h3>
                 <div className="space-y-3">
                   <div>
-                    <p className="text-sm text-gray-600">Email</p>
-                    <p className="font-medium text-gray-900">{company.contactEmail}</p>
+<p className="text-sm text-gray-600">Email</p>
+                    <p className="font-medium text-gray-900">{company.contact_email}</p>
                   </div>
                   <div>
                     <p className="text-sm text-gray-600">Telefon</p>

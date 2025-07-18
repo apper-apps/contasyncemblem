@@ -66,16 +66,16 @@ const DocumentsList = () => {
     }
   };
 
-  const getCompanyName = (companyId) => {
-    const company = companies.find(c => c.Id === parseInt(companyId));
-    return company ? company.name : "Necunoscut";
+const getCompanyName = (companyId) => {
+    const company = companies.find(c => c.Id === parseInt(companyId?.Id || companyId));
+    return company ? company.Name : "Necunoscut";
   };
 
-  const filteredDocuments = documents.filter(doc => {
-    const matchesSearch = doc.fileName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                         getCompanyName(doc.companyId).toLowerCase().includes(searchQuery.toLowerCase());
+const filteredDocuments = documents.filter(doc => {
+    const matchesSearch = doc.file_name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                         getCompanyName(doc.company_id).toLowerCase().includes(searchQuery.toLowerCase());
     const matchesStatus = !filterStatus || doc.status === filterStatus;
-    const matchesCompany = !filterCompany || doc.companyId === filterCompany;
+    const matchesCompany = !filterCompany || doc.company_id?.Id === parseInt(filterCompany) || doc.company_id === parseInt(filterCompany);
     const matchesMonth = !filterMonth || doc.month === filterMonth;
 
     return matchesSearch && matchesStatus && matchesCompany && matchesMonth;
@@ -91,7 +91,7 @@ const DocumentsList = () => {
 
   const companyOptions = [
     { value: "", label: "Toate companiile" },
-    ...companies.map(company => ({ value: company.Id.toString(), label: company.name }))
+...companies.map(company => ({ value: company.Id.toString(), label: company.Name }))
   ];
 
   const monthOptions = [
@@ -176,10 +176,10 @@ const DocumentsList = () => {
                     <ApperIcon name="FileText" size={20} className="text-white" />
                   </div>
                   
-                  <div className="flex-1">
-                    <h3 className="font-semibold text-gray-900">{document.fileName}</h3>
+<div className="flex-1">
+                    <h3 className="font-semibold text-gray-900">{document.file_name}</h3>
                     <div className="flex items-center space-x-4 text-sm text-gray-600 mt-1">
-                      <span>{getCompanyName(document.companyId)}</span>
+                      <span>{getCompanyName(document.company_id)}</span>
                       <span>•</span>
                       <span>{document.month} {document.year}</span>
                       <span>•</span>
@@ -190,12 +190,12 @@ const DocumentsList = () => {
 
                 <div className="flex items-center space-x-4">
                   <div className="text-right">
-                    <div className="text-sm text-gray-600">
-                      Încărcat: {format(new Date(document.uploadDate), "dd MMM yyyy", { locale: ro })}
+<div className="text-sm text-gray-600">
+                      Încărcat: {format(new Date(document.upload_date), "dd MMM yyyy", { locale: ro })}
                     </div>
-                    {document.physicalReceivedDate && (
+                    {document.physical_received_date && (
                       <div className="text-sm text-gray-600">
-                        Primit: {format(new Date(document.physicalReceivedDate), "dd MMM yyyy", { locale: ro })}
+                        Primit: {format(new Date(document.physical_received_date), "dd MMM yyyy", { locale: ro })}
                       </div>
                     )}
                   </div>

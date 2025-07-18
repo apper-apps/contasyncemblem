@@ -1,12 +1,15 @@
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useState, useContext } from "react";
+import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import { useSelector } from 'react-redux';
 import ApperIcon from "@/components/ApperIcon";
 import Button from "@/components/atoms/Button";
+import { AuthContext } from "../../App";
 
 const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const navigate = useNavigate();
+  const { logout } = useContext(AuthContext);
+  const { user } = useSelector((state) => state.user);
 
   const navItems = [
     { path: "/", label: "Dashboard", icon: "LayoutDashboard" },
@@ -16,10 +19,9 @@ const Header = () => {
     { path: "/settings", label: "Setări", icon: "Settings" }
   ];
 
-  const handleLogout = () => {
-    navigate("/");
+  const handleLogout = async () => {
+    await logout();
   };
-
   return (
     <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-sm border-b border-gray-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -50,13 +52,13 @@ const Header = () => {
 
           {/* User Menu */}
           <div className="flex items-center space-x-4">
-            <div className="hidden md:flex items-center space-x-3">
+<div className="hidden md:flex items-center space-x-3">
               <div className="w-8 h-8 bg-gradient-to-r from-primary to-accent rounded-full flex items-center justify-center">
                 <ApperIcon name="User" size={16} className="text-white" />
               </div>
               <div className="text-sm">
-                <p className="font-medium text-gray-900">Contabil Principal</p>
-                <p className="text-gray-500">contabil@contasync.ro</p>
+                <p className="font-medium text-gray-900">{user?.firstName} {user?.lastName}</p>
+                <p className="text-gray-500">{user?.emailAddress}</p>
               </div>
             </div>
             
