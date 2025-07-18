@@ -120,11 +120,10 @@ const updatedDocument = {
     >
       {/* Breadcrumb */}
       <div className="flex items-center space-x-2 text-sm text-gray-600">
-        <Link to="/clients" className="hover:text-primary">Clienți</Link>
+<Link to="/clients" className="hover:text-primary">Clienți</Link>
         <ApperIcon name="ChevronRight" size={16} />
-        <span className="text-gray-900 font-medium">{company.name}</span>
+        <span className="text-gray-900 font-medium">{company.Name}</span>
       </div>
-
       {/* Company Header */}
       <Card className="p-6">
         <div className="flex items-center justify-between">
@@ -138,9 +137,10 @@ const updatedDocument = {
                 <CompanyTypeBadge type={company.type} />
               </div>
               <p className="text-gray-600 mb-1">CUI: {company.cui}</p>
-              <div className="flex items-center space-x-4 text-sm text-gray-600">
+<div className="flex items-center space-x-4 text-sm text-gray-600">
                 <div className="flex items-center space-x-1">
-<span>{company.contact_email}</span>
+                  <ApperIcon name="Mail" size={14} />
+                  <span>{company.contact_email}</span>
                 </div>
                 <div className="flex items-center space-x-1">
                   <ApperIcon name="Phone" size={14} />
