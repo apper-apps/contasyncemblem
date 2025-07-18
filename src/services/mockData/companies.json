@@ -1,0 +1,74 @@
+[
+  {
+    "Id": 1,
+    "name": "ABC Software Solutions SRL",
+    "cui": "RO12345678",
+    "type": "SRL",
+    "accountantId": "1",
+    "contactEmail": "contact@abcsoftware.ro",
+    "phone": "0721234567"
+  },
+  {
+    "Id": 2,
+    "name": "Maria Popescu PFA",
+    "cui": "RO23456789",
+    "type": "PFA",
+    "accountantId": "1",
+    "contactEmail": "maria.popescu@email.ro",
+    "phone": "0732345678"
+  },
+  {
+    "Id": 3,
+    "name": "Tech Innovations SRL",
+    "cui": "RO34567890",
+    "type": "SRL",
+    "accountantId": "1",
+    "contactEmail": "office@techinnovations.ro",
+    "phone": "0743456789"
+  },
+  {
+    "Id": 4,
+    "name": "Consulting Expert II",
+    "cui": "RO45678901",
+    "type": "II",
+    "accountantId": "1",
+    "contactEmail": "expert@consulting.ro",
+    "phone": "0754567890"
+  },
+  {
+    "Id": 5,
+    "name": "Digital Marketing Pro SRL",
+    "cui": "RO56789012",
+    "type": "SRL",
+    "accountantId": "1",
+    "contactEmail": "hello@digitalmarketing.ro",
+    "phone": "0765678901"
+  },
+  {
+    "Id": 6,
+    "name": "Ana Ionescu PFA",
+    "cui": "RO67890123",
+    "type": "PFA",
+    "accountantId": "1",
+    "contactEmail": "ana.ionescu@gmail.com",
+    "phone": "0776789012"
+  },
+  {
+    "Id": 7,
+    "name": "Construction Build SRL",
+    "cui": "RO78901234",
+    "type": "SRL",
+    "accountantId": "1",
+    "contactEmail": "office@constructionbuild.ro",
+    "phone": "0787890123"
+  },
+  {
+    "Id": 8,
+    "name": "Creative Studio IF",
+    "cui": "RO89012345",
+    "type": "IF",
+    "accountantId": "1",
+    "contactEmail": "studio@creative.ro",
+    "phone": "0798901234"
+  }
+]

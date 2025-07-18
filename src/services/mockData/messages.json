@@ -1,0 +1,82 @@
+[
+  {
+    "Id": 1,
+    "companyId": "1",
+    "senderId": "client1",
+    "type": "request",
+    "subject": "Întrebare despre declarația TVA",
+    "content": "Bună ziua,\n\nAm o întrebare legată de declarația TVA pentru luna noiembrie. Pot să vă sun mâine pentru detalii?\n\nMultumesc!",
+    "timestamp": "2024-12-01T14:30:00.000Z",
+    "read": false
+  },
+  {
+    "Id": 2,
+    "companyId": "2",
+    "senderId": "client2",
+    "type": "info",
+    "subject": "Documente trimise prin curier",
+    "content": "Bună ziua,\n\nV-am trimis documentele pentru luna noiembrie prin curier. Ar trebui să ajungă mâine dimineața.\n\nO zi bună!",
+    "timestamp": "2024-12-01T16:45:00.000Z",
+    "read": true
+  },
+  {
+    "Id": 3,
+    "companyId": "3",
+    "senderId": "client3",
+    "type": "urgent",
+    "subject": "URGENT: Problemă cu factura",
+    "content": "Bună ziua,\n\nAm o problemă urgentă cu o factură care trebuie emisă astăzi. Vă rog să mă contactați cât mai repede posibil.\n\nMultumesc pentru înțelegere!",
+    "timestamp": "2024-12-02T08:15:00.000Z",
+    "read": false
+  },
+  {
+    "Id": 4,
+    "companyId": "4",
+    "senderId": "client4",
+    "type": "request",
+    "subject": "Cerere raport financiar",
+    "content": "Bună ziua,\n\nAș dori să primesc un raport financiar pentru trimestrul III. Când ar fi posibil?\n\nVă mulțumesc!",
+    "timestamp": "2024-12-02T10:00:00.000Z",
+    "read": true
+  },
+  {
+    "Id": 5,
+    "companyId": "5",
+    "senderId": "client5",
+    "type": "info",
+    "subject": "Confirmare primire documente",
+    "content": "Bună ziua,\n\nConfirm că ați primit toate documentele pentru luna noiembrie. Dacă aveți nevoie de clarificări, vă rog să mă anunțați.\n\nO zi bună!",
+    "timestamp": "2024-12-02T11:30:00.000Z",
+    "read": false
+  },
+  {
+    "Id": 6,
+    "companyId": "6",
+    "senderId": "client6",
+    "type": "request",
+    "subject": "Întrebare despre deduceri",
+    "content": "Bună ziua,\n\nAm o întrebare despre deducerile pe care le pot face pentru echipamentele achiziționate luna aceasta.\n\nMultumesc!",
+    "timestamp": "2024-12-02T13:20:00.000Z",
+    "read": true
+  },
+  {
+    "Id": 7,
+    "companyId": "7",
+    "senderId": "client7",
+    "type": "info",
+    "subject": "Modificare date contact",
+    "content": "Bună ziua,\n\nVă anunț că s-a schimbat adresa sediului social al companiei. Vă voi trimite documentele actualizate.\n\nO zi bună!",
+    "timestamp": "2024-12-02T15:45:00.000Z",
+    "read": false
+  },
+  {
+    "Id": 8,
+    "companyId": "8",
+    "senderId": "client8",
+    "type": "urgent",
+    "subject": "Problemă cu plata contribuțiilor",
+    "content": "Bună ziua,\n\nAm o problemă cu plata contribuțiilor pentru luna trecută. Sistemul nu îmi acceptă plata. Vă rog să mă ajutați urgent.\n\nMultumesc!",
+    "timestamp": "2024-12-02T17:00:00.000Z",
+    "read": false
+  }
+]
