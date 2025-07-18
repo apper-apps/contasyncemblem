@@ -197,9 +197,9 @@ const validateForm = () => {
     }
   };
 
-  if (loading) return <Loading />;
+if (loading) return <Loading />;
   if (error) return <Error message={error} onRetry={loadCompanies} />;
-  if (companies.length === 0 && !showAddForm) return <Empty message="Nu există clienți înregistrați" />;
+  if (companies.length === 0) return <Empty message="Nu există clienți înregistrați" />;
 
   return (
     <div className="space-y-6">
