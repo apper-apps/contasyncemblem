@@ -199,7 +199,6 @@ const validateForm = () => {
 
 if (loading) return <Loading />;
   if (error) return <Error message={error} onRetry={loadCompanies} />;
-  if (companies.length === 0) return <Empty message="Nu există clienți înregistrați" />;
 
   return (
     <div className="space-y-6">
@@ -314,12 +313,17 @@ if (loading) return <Loading />;
         ))}
       </div>
 
-{filteredAndSortedCompanies.length === 0 && searchQuery && (
+{companies.length === 0 && !searchQuery ? (
+        <Empty 
+          message="Nu există clienți înregistrați"
+          description="Adaugă primul client pentru a începe"
+        />
+      ) : filteredAndSortedCompanies.length === 0 && searchQuery ? (
         <Empty 
           message="Nu s-au găsit clienți"
           description={`Nu există clienți care să corespundă cu "${searchQuery}"`}
         />
-      )}
+      ) : null}
 
       {/* Add Client Form */}
       {showAddForm && (
