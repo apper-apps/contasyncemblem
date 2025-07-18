@@ -37,11 +37,13 @@ export const messagesService = {
       }
       
       return response.data || [];
-    } catch (error) {
+} catch (error) {
       if (error?.response?.data?.message) {
-        console.error("Error fetching messages:", error?.response?.data?.message);
+        console.error("Error fetching messages:", error.response.data.message);
+        toast.error(error.response.data.message);
       } else {
-        console.error(error.message);
+        console.error("Error fetching messages:", error?.message || "Unknown error");
+        toast.error("Eroare la încărcarea mesajelor");
       }
       return [];
     }
@@ -72,11 +74,13 @@ export const messagesService = {
       }
       
       return response.data;
-    } catch (error) {
+} catch (error) {
       if (error?.response?.data?.message) {
-        console.error(`Error fetching message with ID ${id}:`, error?.response?.data?.message);
+        console.error(`Error fetching message with ID ${id}:`, error.response.data.message);
+        toast.error(error.response.data.message);
       } else {
-        console.error(error.message);
+        console.error(`Error fetching message with ID ${id}:`, error?.message || "Unknown error");
+        toast.error("Eroare la încărcarea mesajului");
       }
       return null;
     }
@@ -133,11 +137,13 @@ export const messagesService = {
       }
       
       return null;
-    } catch (error) {
+} catch (error) {
       if (error?.response?.data?.message) {
-        console.error("Error creating message:", error?.response?.data?.message);
+        console.error("Error creating message:", error.response.data.message);
+        toast.error(error.response.data.message);
       } else {
-        console.error(error.message);
+        console.error("Error creating message:", error?.message || "Unknown error");
+        toast.error("Eroare la crearea mesajului");
       }
       return null;
     }
@@ -195,11 +201,13 @@ export const messagesService = {
       }
       
       return null;
-    } catch (error) {
+} catch (error) {
       if (error?.response?.data?.message) {
-        console.error("Error updating message:", error?.response?.data?.message);
+        console.error("Error updating message:", error.response.data.message);
+        toast.error(error.response.data.message);
       } else {
-        console.error(error.message);
+        console.error("Error updating message:", error?.message || "Unknown error");
+        toast.error("Eroare la actualizarea mesajului");
       }
       return null;
     }
@@ -236,11 +244,13 @@ export const messagesService = {
       }
       
       return false;
-    } catch (error) {
+} catch (error) {
       if (error?.response?.data?.message) {
-        console.error("Error deleting message:", error?.response?.data?.message);
+        console.error("Error deleting message:", error.response.data.message);
+        toast.error(error.response.data.message);
       } else {
-        console.error(error.message);
+        console.error("Error deleting message:", error?.message || "Unknown error");
+        toast.error("Eroare la ștergerea mesajului");
       }
       return false;
     }
@@ -279,11 +289,13 @@ export const messagesService = {
       }
       
       return response.data || [];
-    } catch (error) {
+} catch (error) {
       if (error?.response?.data?.message) {
-        console.error("Error fetching messages by company ID:", error?.response?.data?.message);
+        console.error("Error fetching messages by company ID:", error.response.data.message);
+        toast.error(error.response.data.message);
       } else {
-        console.error(error.message);
+        console.error("Error fetching messages by company ID:", error?.message || "Unknown error");
+        toast.error("Eroare la încărcarea mesajelor companiei");
       }
       return [];
     }

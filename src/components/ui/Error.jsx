@@ -5,6 +5,10 @@ import Button from "@/components/atoms/Button";
 import Card from "@/components/atoms/Card";
 
 const Error = ({ message = "A apărut o eroare", onRetry }) => {
+  // Ensure message is a string and not empty
+  const errorMessage = typeof message === 'string' && message.trim() 
+    ? message 
+    : "A apărut o eroare neprevăzută";
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -20,8 +24,8 @@ const Error = ({ message = "A apărut o eroare", onRetry }) => {
           Oops! Ceva nu a mers bine
         </h2>
         
-        <p className="text-gray-600 mb-6">
-          {message}
+<p className="text-gray-600 mb-6">
+          {errorMessage}
         </p>
         
         <div className="flex items-center justify-center space-x-4">

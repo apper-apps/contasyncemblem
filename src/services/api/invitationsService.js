@@ -1,4 +1,5 @@
-import { toast } from 'react-toastify';
+import { toast } from "react-toastify";
+import React from "react";
 
 // Initialize ApperClient
 const getApperClient = () => {
@@ -34,11 +35,13 @@ export const invitationsService = {
       }
       
       return response.data || [];
-    } catch (error) {
+} catch (error) {
       if (error?.response?.data?.message) {
-        console.error("Error fetching invitations:", error?.response?.data?.message);
+        console.error("Error fetching invitations:", error.response.data.message);
+        toast.error(error.response.data.message);
       } else {
-        console.error(error.message);
+        console.error("Error fetching invitations:", error?.message || "Unknown error");
+        toast.error("Eroare la încărcarea invitațiilor");
       }
       return [];
     }
@@ -66,11 +69,13 @@ export const invitationsService = {
       }
       
       return response.data;
-    } catch (error) {
+} catch (error) {
       if (error?.response?.data?.message) {
-        console.error(`Error fetching invitation with ID ${id}:`, error?.response?.data?.message);
+        console.error(`Error fetching invitation with ID ${id}:`, error.response.data.message);
+        toast.error(error.response.data.message);
       } else {
-        console.error(error.message);
+        console.error(`Error fetching invitation with ID ${id}:`, error?.message || "Unknown error");
+        toast.error("Eroare la încărcarea invitației");
       }
       return null;
     }
@@ -124,11 +129,13 @@ export const invitationsService = {
       }
       
       return null;
-    } catch (error) {
+} catch (error) {
       if (error?.response?.data?.message) {
-        console.error("Error creating invitation:", error?.response?.data?.message);
+        console.error("Error creating invitation:", error.response.data.message);
+        toast.error(error.response.data.message);
       } else {
-        console.error(error.message);
+        console.error("Error creating invitation:", error?.message || "Unknown error");
+        toast.error("Eroare la crearea invitației");
       }
       return null;
     }
@@ -183,11 +190,13 @@ export const invitationsService = {
       }
       
       return null;
-    } catch (error) {
+} catch (error) {
       if (error?.response?.data?.message) {
         console.error("Error updating invitation:", error?.response?.data?.message);
+        toast.error(error.response.data.message);
       } else {
-        console.error(error.message);
+        console.error("Error updating invitation:", error?.message || "Unknown error");
+        toast.error("Eroare la actualizarea invitației");
       }
       return null;
     }
@@ -226,11 +235,13 @@ export const invitationsService = {
       return false;
     } catch (error) {
       if (error?.response?.data?.message) {
-        console.error("Error deleting invitation:", error?.response?.data?.message);
+        console.error("Error deleting invitation:", error.response.data.message);
+        toast.error(error.response.data.message);
       } else {
-        console.error(error.message);
+        console.error("Error deleting invitation:", error?.message || "Unknown error");
+        toast.error("Eroare la ștergerea invitației");
       }
-return false;
+      return false;
     }
   },
 
@@ -317,13 +328,13 @@ return false;
         });
       }
       
-      return successCount > 0;
+return successCount > 0;
     } catch (error) {
       if (error?.response?.data?.message) {
-        console.error("Error sending credentials:", error?.response?.data?.message);
+        console.error("Error sending credentials:", error.response.data.message);
         toast.error(error.response.data.message);
       } else {
-        console.error("Error sending credentials:", error.message);
+        console.error("Error sending credentials:", error?.message || "Unknown error");
         toast.error("Eroare la trimiterea credențialelor");
       }
       return false;

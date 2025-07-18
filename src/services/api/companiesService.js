@@ -35,11 +35,13 @@ export const companiesService = {
       }
       
       return response.data || [];
-    } catch (error) {
+} catch (error) {
       if (error?.response?.data?.message) {
-        console.error("Error fetching companies:", error?.response?.data?.message);
+        console.error("Error fetching companies:", error.response.data.message);
+        toast.error(error.response.data.message);
       } else {
-        console.error(error.message);
+        console.error("Error fetching companies:", error?.message || "Unknown error");
+        toast.error("Eroare la încărcarea companiilor");
       }
       return [];
     }
@@ -69,15 +71,16 @@ export const companiesService = {
       
       return response.data;
     } catch (error) {
-      if (error?.response?.data?.message) {
-        console.error(`Error fetching company with ID ${id}:`, error?.response?.data?.message);
+if (error?.response?.data?.message) {
+        console.error(`Error fetching company with ID ${id}:`, error.response.data.message);
+        toast.error(error.response.data.message);
       } else {
-        console.error(error.message);
+        console.error(`Error fetching company with ID ${id}:`, error?.message || "Unknown error");
+        toast.error("Eroare la încărcarea companiei");
       }
       return null;
     }
   },
-
   async create(companyData) {
     try {
       const apperClient = getApperClient();
@@ -127,11 +130,13 @@ export const companiesService = {
       }
       
       return null;
-    } catch (error) {
+} catch (error) {
       if (error?.response?.data?.message) {
-        console.error("Error creating company:", error?.response?.data?.message);
+        console.error("Error creating company:", error.response.data.message);
+        toast.error(error.response.data.message);
       } else {
-        console.error(error.message);
+        console.error("Error creating company:", error?.message || "Unknown error");
+        toast.error("Eroare la crearea companiei");
       }
       return null;
     }
@@ -187,11 +192,13 @@ export const companiesService = {
       }
       
       return null;
-    } catch (error) {
+} catch (error) {
       if (error?.response?.data?.message) {
-        console.error("Error updating company:", error?.response?.data?.message);
+        console.error("Error updating company:", error.response.data.message);
+        toast.error(error.response.data.message);
       } else {
-        console.error(error.message);
+        console.error("Error updating company:", error?.message || "Unknown error");
+        toast.error("Eroare la actualizarea companiei");
       }
       return null;
     }
@@ -229,10 +236,12 @@ export const companiesService = {
       
       return false;
     } catch (error) {
-      if (error?.response?.data?.message) {
-        console.error("Error deleting company:", error?.response?.data?.message);
+if (error?.response?.data?.message) {
+        console.error("Error deleting company:", error.response.data.message);
+        toast.error(error.response.data.message);
       } else {
-        console.error(error.message);
+        console.error("Error deleting company:", error?.message || "Unknown error");
+        toast.error("Eroare la ștergerea companiei");
       }
       return false;
     }

@@ -39,11 +39,13 @@ export const documentsService = {
       }
       
       return response.data || [];
-    } catch (error) {
+} catch (error) {
       if (error?.response?.data?.message) {
-        console.error("Error fetching documents:", error?.response?.data?.message);
+        console.error("Error fetching documents:", error.response.data.message);
+        toast.error(error.response.data.message);
       } else {
-        console.error(error.message);
+        console.error("Error fetching documents:", error?.message || "Unknown error");
+        toast.error("Eroare la încărcarea documentelor");
       }
       return [];
     }
@@ -76,11 +78,13 @@ export const documentsService = {
       }
       
       return response.data;
-    } catch (error) {
+} catch (error) {
       if (error?.response?.data?.message) {
-        console.error(`Error fetching document with ID ${id}:`, error?.response?.data?.message);
+        console.error(`Error fetching document with ID ${id}:`, error.response.data.message);
+        toast.error(error.response.data.message);
       } else {
-        console.error(error.message);
+        console.error(`Error fetching document with ID ${id}:`, error?.message || "Unknown error");
+        toast.error("Eroare la încărcarea documentului");
       }
       return null;
     }
@@ -139,11 +143,13 @@ export const documentsService = {
       }
       
       return null;
-    } catch (error) {
+} catch (error) {
       if (error?.response?.data?.message) {
-        console.error("Error creating document:", error?.response?.data?.message);
+        console.error("Error creating document:", error.response.data.message);
+        toast.error(error.response.data.message);
       } else {
-        console.error(error.message);
+        console.error("Error creating document:", error?.message || "Unknown error");
+        toast.error("Eroare la crearea documentului");
       }
       return null;
     }
@@ -203,11 +209,13 @@ export const documentsService = {
       }
       
       return null;
-    } catch (error) {
+} catch (error) {
       if (error?.response?.data?.message) {
-        console.error("Error updating document:", error?.response?.data?.message);
+        console.error("Error updating document:", error.response.data.message);
+        toast.error(error.response.data.message);
       } else {
-        console.error(error.message);
+        console.error("Error updating document:", error?.message || "Unknown error");
+        toast.error("Eroare la actualizarea documentului");
       }
       return null;
     }
@@ -243,12 +251,14 @@ export const documentsService = {
         return successfulDeletions.length === 1;
       }
       
-      return false;
+return false;
     } catch (error) {
       if (error?.response?.data?.message) {
-        console.error("Error deleting document:", error?.response?.data?.message);
+        console.error("Error deleting document:", error.response.data.message);
+        toast.error(error.response.data.message);
       } else {
-        console.error(error.message);
+        console.error("Error deleting document:", error?.message || "Unknown error");
+        toast.error("Eroare la ștergerea documentului");
       }
       return false;
     }
@@ -289,11 +299,13 @@ export const documentsService = {
       }
       
       return response.data || [];
-    } catch (error) {
+} catch (error) {
       if (error?.response?.data?.message) {
-        console.error("Error fetching documents by company ID:", error?.response?.data?.message);
+        console.error("Error fetching documents by company ID:", error.response.data.message);
+        toast.error(error.response.data.message);
       } else {
-        console.error(error.message);
+        console.error("Error fetching documents by company ID:", error?.message || "Unknown error");
+        toast.error("Eroare la încărcarea documentelor companiei");
       }
       return [];
     }

@@ -95,8 +95,8 @@ function App() {
           dispatch(clearUser());
         }
       },
-      onError: function(error) {
-        console.error("Authentication failed:", error);
+onError: function(error) {
+        console.error("Authentication failed:", error?.message || "Unknown authentication error");
         setIsInitialized(true);
       }
     });
