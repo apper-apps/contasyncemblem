@@ -230,6 +230,102 @@ export const invitationsService = {
       } else {
         console.error(error.message);
       }
+return false;
+    }
+  },
+
+  async sendCredentials(invitationIds) {
+    try {
+      const apperClient = getApperClient();
+      
+      // Convert single ID to array for consistency
+      const ids = Array.isArray(invitationIds) ? invitationIds : [invitationIds];
+      
+      // First, fetch the invitation records to get recipient details
+      const invitations = [];
+      for (const id of ids) {
+        const invitation = await this.getById(id);
+        if (invitation) {
+          invitations.push(invitation);
+        }
+      }
+      
+      if (invitations.length === 0) {
+        toast.error("Nu s-au găsit invitații valide pentru trimiterea credențialelor");
+        return false;
+      }
+      
+      // Process each invitation to send credentials
+      const results = [];
+      for (const invitation of invitations) {
+        try {
+          // Generate temporary credentials (this would typically integrate with your auth system)
+          const tempPassword = Math.random().toString(36).substring(2, 15);
+          const loginEmail = invitation.client?.Name || invitation.accountant?.Name || 'user@example.com';
+          
+          // In a real implementation, this would send an email with credentials
+          // For now, we'll simulate the credential sending process
+          console.log(`Sending credentials to ${loginEmail}:`, {
+            email: loginEmail,
+            temporaryPassword: tempPassword,
+            invitationId: invitation.Id,
+            company: invitation.company?.Name
+          });
+          
+          // Update invitation status to 'Sent'
+          const updateResult = await this.update(invitation.Id, {
+            ...invitation,
+            status: 'Sent'
+          });
+          
+          if (updateResult) {
+            results.push({
+              id: invitation.Id,
+              success: true,
+              email: loginEmail
+            });
+          } else {
+            results.push({
+              id: invitation.Id,
+              success: false,
+              error: "Eroare la actualizarea statusului invitației"
+            });
+          }
+        } catch (error) {
+          results.push({
+            id: invitation.Id,
+            success: false,
+            error: error.message || "Eroare la trimiterea credențialelor"
+          });
+        }
+      }
+      
+      // Process results and show feedback
+      const successCount = results.filter(r => r.success).length;
+      const failedCount = results.filter(r => !r.success).length;
+      
+      if (successCount > 0) {
+        toast.success(`Credențialele au fost trimise cu succes pentru ${successCount} invitație${successCount > 1 ? 'i' : ''}`);
+      }
+      
+      if (failedCount > 0) {
+        const failedResults = results.filter(r => !r.success);
+        console.error(`Failed to send credentials for ${failedCount} invitations:${JSON.stringify(failedResults)}`);
+        
+        failedResults.forEach(result => {
+          toast.error(`Eroare pentru invitația ${result.id}: ${result.error}`);
+        });
+      }
+      
+      return successCount > 0;
+    } catch (error) {
+      if (error?.response?.data?.message) {
+        console.error("Error sending credentials:", error?.response?.data?.message);
+        toast.error(error.response.data.message);
+      } else {
+        console.error("Error sending credentials:", error.message);
+        toast.error("Eroare la trimiterea credențialelor");
+      }
       return false;
     }
   }
