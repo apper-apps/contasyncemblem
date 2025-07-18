@@ -15,6 +15,7 @@ import ErrorPage from "@/components/pages/ErrorPage";
 import ResetPassword from "@/components/pages/ResetPassword";
 import Settings from "@/components/pages/Settings";
 import Messages from "@/components/pages/Messages";
+import ClientDashboard from "@/components/pages/ClientDashboard";
 import { clearUser, setUser } from "@/store/userSlice";
 
 // Create auth context
@@ -151,10 +152,16 @@ function App() {
                 <Route path="/" element={<Dashboard />} />
 <Route path="/clients" element={<Clients />} />
                 <Route path="/clients/:id" element={<ClientDetail />} />
-                <Route path="/invitations" element={<Clients />} />
+<Route path="/invitations" element={<Clients />} />
                 <Route path="/documents" element={<Documents />} />
                 <Route path="/messages" element={<Messages />} />
                 <Route path="/settings" element={<Settings />} />
+              </>
+            )}
+            {/* Client Dashboard Route - Accessible without full authentication */}
+            <Route path="/client-dashboard/:companyId" element={<ClientDashboard />} />
+            {isAuthenticated && (
+              <>
               </>
             )}
           </Routes>

@@ -45,7 +45,7 @@ const DocumentUpload = ({
     setSelectedFiles(files);
   };
 
-  const handleUpload = () => {
+const handleUpload = () => {
     if (selectedFiles.length > 0 && month && documentType) {
       const uploadData = {
         files: selectedFiles,
@@ -130,7 +130,7 @@ const DocumentUpload = ({
           </div>
         )}
 
-        <Button
+<Button
           onClick={handleUpload}
           disabled={selectedFiles.length === 0 || !month || !documentType}
           className="w-full"
