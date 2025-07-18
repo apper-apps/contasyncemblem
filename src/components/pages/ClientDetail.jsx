@@ -316,7 +316,7 @@ const updatedDocument = {
                   </div>
                   <div>
                     <p className="text-sm text-gray-600">Tipul companiei</p>
-                    <CompanyTypeBadge type={company.type} />
+<CompanyTypeBadge type={company.type} />
                   </div>
                 </div>
               </Card>
