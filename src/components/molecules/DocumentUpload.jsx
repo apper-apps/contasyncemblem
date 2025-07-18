@@ -15,13 +15,20 @@ const DocumentUpload = ({
   const [year, setYear] = useState(new Date().getFullYear());
   const [documentType, setDocumentType] = useState("");
 
-  const documentTypes = [
+const documentTypes = [
     { value: "", label: "Selectează tipul documentului" },
-    { value: "facturi", label: "Facturi" },
-    { value: "chitante", label: "Chitanțe" },
-    { value: "extrasebanca", label: "Extrase bancare" },
-    { value: "contracte", label: "Contracte" },
-    { value: "alte", label: "Alte documente" }
+    { value: "Adeverință de venit", label: "Adeverință de venit" },
+    { value: "Adeverință pentru bancă", label: "Adeverință pentru bancă" },
+    { value: "Foaie de salarii / fluturaș", label: "Foaie de salarii / fluturaș" },
+    { value: "Fișă fiscală", label: "Fișă fiscală" },
+    { value: "Balanță contabilă", label: "Balanță contabilă" },
+    { value: "Situație cont clienți/furnizori (411/401)", label: "Situație cont clienți/furnizori (411/401)" },
+    { value: "Jurnal de TVA", label: "Jurnal de TVA" },
+    { value: "Declarații fiscale depuse (D100,D112,D394 etc.)", label: "Declarații fiscale depuse (D100,D112,D394 etc.)" },
+    { value: "Situație creanțe/datorii", label: "Situație creanțe/datorii" },
+    { value: "Situație cash-flow", label: "Situație cash-flow" },
+    { value: "Bilanț contabil", label: "Bilanț contabil" },
+    { value: "Alt document", label: "Alt document" }
   ];
 
   const months = [
