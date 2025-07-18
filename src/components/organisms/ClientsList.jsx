@@ -87,7 +87,7 @@ const filteredAndSortedCompanies = companies
     return statuses[companyId % statuses.length];
 };
 
-  const validateForm = () => {
+const validateForm = () => {
     const errors = {};
     
     if (!formData.Name.trim()) {
@@ -112,7 +112,7 @@ const filteredAndSortedCompanies = companies
       errors.contact_email = "Email-ul nu este valid";
     }
     
-    if (formData.phone && !/^[+]?[\d\s\-\(\)]+$/.test(formData.phone)) {
+    if (formData.phone && !/^[+]?[\d\s\-()]+$/.test(formData.phone)) {
       errors.phone = "Numărul de telefon nu este valid";
     }
     
